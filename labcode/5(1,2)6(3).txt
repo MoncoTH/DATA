@@ -1,0 +1,155 @@
+-- 1.1 --  -- SUCCESSED --
+DECLARE
+v_StdID    VARCHAR  (8)  := 'B6428181';
+v_StdName  VARCHAR (100) := 'Kunthida Khlongkhlaew';
+v_Today    DATE          := SYSDATE;
+v_Tomorrow v_Today%TYPE  := SYSDATE + 1 ;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('ID: ' || v_StdID);
+    DBMS_OUTPUT.PUT_LINE('Name: ' || v_StdName);
+    DBMS_OUTPUT.PUT_LINE('Today is ' || v_Today);
+    DBMS_OUTPUT.PUT_LINE('Tomorrow is ' || v_Tomorrow);
+END;
+
+-- 1.2 --  -- SUCCESSED --
+SELECT employee_id, first_name||' '||last_name as EMPLOYEE_NAME, TO_CHAR( hire_date,'MONTH Dd, YYYY' ) as START_DATE,
+CASE WHEN COMMISSION_PCT IS NULL THEN 0 ELSE COMMISSION_PCT END AS COMMISSION
+FROM employees
+WHERE first_name BETWEEN 'C' AND 'I'
+ORDER BY employee_name ASC
+
+-- 1.3 --
+DECLARE
+   v_maxID employees.employee_id%TYPE;
+   r_employees employees%ROWTYPE;
+BEGIN
+    BEGIN 
+    SELECT MAX(employees_id)
+    into v_maxID
+    From employees;
+    END;
+FOR i IN 1..2 LOOP
+BEGIN 
+    SELECT *
+    INTO r_employees
+    FROM employees
+    WHERE employees_ID = v_maxID+i-100;
+END;
+dbms_output.put_line('Insert a new employee(' || To_Char(v_maxID+i) ||') using ' ||
+r_employees.first_name || q'['s information]' );
+r_employees.employee_id := v_maxID+i;
+r_employees.email := 'new' || r_employees.employee_id || r_employees.email;
+BEGIN
+    INSERT INTO employees
+        ()
+    VALUES r_employees;
+        IF SQL%found THEN
+        dbms_output.put_Line(SQL%rowcount ||' row inserted.');
+        END IF;
+end;
+end loop;
+end;
+
+*1.3
+DECLARE
+    v_maxID employees.employee_id%TYPE;
+    v_first_name employees.first_name%TYPE;
+BEGIN
+    FOR I IN 1..2 LOOP
+        SELECT MAX(employee_id) 
+        INTO v_maxID
+        FROM employees;
+        
+        SELECT first_name
+        INTO 
+
+
+
+
+
+
+*2.1
+SELECT * FROM DEPARTMENTs
+SELECT * FROM EMPLOYEES
+
+CREATE TABLE SA_EMP AS
+(SELECT
+    EMPLOYEE_ID,
+    FIRST_NAME,
+    LAST_NAME,
+    EMAIL,
+    PHONE_NUMBER,
+    HIRE_DATE,
+    JOB_ID,
+    SALARY,
+    CASE WHEN JOB_ID = 'SA_MAN' THEN COMMISSION_PCT*0.1
+    WHEN JOB_ID = 'SA_REP' THEN COMMISSION_PCT*0.2 END as COMMISSION_PCT,
+    MANAGER_ID,
+    DEPARTMENT_ID FROM EMPLOYEES
+WHERE department_id = '80')
+
+
+
+ SELECT * FROM SA_EMP
+
+*2.2
+DECLARE
+    v_emprec EMPLOYEES%ROWTYPE;
+    v_maxsal EMPLOYEES.SALARY%TYPE := 0;
+BEGIN
+    FOR I IN 145..147 LOOP
+    SELECT *
+    INTO v_emprec
+    FROM EMPLOYEES
+    WHERE 
+    
+    SELECT * MAX (SALARY)
+    INTO v_maxsal
+    FROM
+    WHERE
+    
+    if v_emprec < v_maxsal
+    DBMS_OUTPUT.PUT_LINE();
+    else
+    DBMS_OUTPUT.PUT_LINE();
+END IF;
+END;
+
+*2.3  -- SUCCESSED --
+DECLARE
+v_Today    DATE          := SYSDATE;
+v_empID employees.employee_id%type := '200';
+v_firstname employees.first_name%type;
+v_lastname employees.last_name%type;
+v_hiredate employees.hire_date%type;
+v_sincey NUMBER;
+v_sincem NUMBER;
+BEGIN
+     SELECT first_name
+    INTO v_firstname
+    FROM employees
+    WHERE employee_id = v_empID;
+    
+     SELECT last_name
+    INTO v_lastname
+    FROM employees
+    WHERE employee_id = v_empID;
+    
+     SELECT  hire_date
+     INTO v_hiredate
+     FROM employees
+     WHERE employee_id = v_empID;
+     
+    SELECT EXTRACT(YEAR from SYSDATE) - EXTRACT(YEAR from v_hiredate)
+    INTO v_sincey
+    FROM employees
+    WHERE employee_id = '200';
+    
+    SELECT EXTRACT(MONTH from SYSDATE) - EXTRACT(MONTH from v_hiredate) as a
+    INTO v_sincem
+    FROM employees
+    WHERE employee_id = '200';
+    
+    DBMS_OUTPUT.PUT_LINE('Printed on '||v_Today);
+    DBMS_OUTPUT.PUT_LINE('ID:'||v_empID||' '||v_firstname||' '||v_lastname||', since ' || TO_CHAR( v_hiredate,'DS')||', '|| v_sincey|| ' years ' || v_sincem || ' months.');
+END;

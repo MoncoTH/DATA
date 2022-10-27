@@ -1,0 +1,22 @@
+DECLARE
+    CURSOR c_year IS SELECT EXTRACT (YEAR FROM hire_date) YEAR, COUNT(*) PERSON
+                    FROM employees
+                    GROUP BY EXTRACT (YEAR FROM hire_date)
+                    ORDER BY YEAR DESC;
+    CURSOR c_emp (thisyear NUMBER) IS
+                    SELECT employee_id ID, first_name, last_name , hire_date,
+                    EXTRACT(YEAR from SYSDATE) - EXTRACT(YEAR from hire_date) as v_sincey,
+                    EXTRACT(MONTH from SYSDATE) - EXTRACT(MONTH from hire_date) as v_sincem
+                    FROM employees
+                    WHERE EXTRACT(YEAR FROM hire_date) = thisyear
+                    ORDER BY first_name ASC;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Printed on '|| TO_CHAR(SYSDATE,'dD/MM/YYYY'));
+    FOR e_year IN c_year LOOP
+    DBMS_OUTPUT.PUT_LINE('Acquire since '|| e_year.YEAR || ' ('||e_year.PERSON || ' persons) ==========');
+            FOR e_emp IN c_emp(e_year.year) LOOP
+            DBMS_OUTPUT.PUT_LINE('ID: '||e_emp.ID||' '||e_emp.first_name||' '||e_emp.last_name||', since'||
+            TO_CHAR(e_emp.hire_date,'dD/MM/YYYY')||', '||e_emp.v_sincey||' years '||e_emp.v_sincem||' months.');
+            END LOOP;
+    END LOOP;
+END;

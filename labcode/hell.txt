@@ -1,0 +1,12 @@
+SET SERVEROUTPUT ON
+ACCEPT name  prompt 'Name of employee'
+DECLARE
+    v_sal NUMBER;
+BEGIN
+    SELECT salary
+    INTO   v_sal
+    FROM   employees
+    WHERE  first_name = '&&name';
+
+    dbms_output.put_line('Employee &&name has the salary' || v_sal);
+END;

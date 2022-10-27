@@ -1,0 +1,147 @@
+DECLARE
+   v_maxID employees.employee_id%TYPE;
+BEGIN
+    BEGIN 
+    SELECT MAX(employees_id)
+    into v_maxID
+    From employees;
+    END;
+FOR i IN 1..2 Loop
+BEGIN 
+    SELECT employee_ID,
+    FIRST_NAME,
+    LAST_NAME,
+    
+    INTO r_employees
+    FROM employees
+    where employees_ID = v_maxID+i-100;
+END;
+dbms_output.put_line('Insert a new employee(' || To_Char(v_maxID+i) ||') using ' ||
+r_employees.first_name || q'['s information]' );
+r_employees.employee_id := v_maxID+i;
+r_employees.email := 'new' || r_employees.employee_id || r_employees.email;
+BEGIN
+    insert into employees values r_employees;
+    if sql%found THEN
+    dbms_output.put_Line(SQL%rowcount ||' row inserted.');
+END IF;
+end;
+end loop;
+end;
+
+
+--lab5--
+--1--
+DECLARE
+    v_StdID VARCHAR(8):='B6417345';
+    v_Stdname VARCHAR(100):= 'Kunlanit Intarachang';
+    v_Today DATE:=SYSDATE;
+    v_Tomorrow v_Today%type:= SYSDATE +1;
+BEGIN
+    DBMS_output.put_Line('ID: ' || v_StdID);
+    DBMS_output.put_Line('Name: ' || v_Stdname);
+    DBMS_output.put_Line('Today is ' || v_Today);
+    DBMS_output.put_Line('Tomorrow is ' || v_Tomorrow);
+END;
+
+--2--
+SELECT employee_id, First_name||' '||last_name as EMPLOYEE_NAME, TO_CHAR( hire_date, 'MONTH Dd \, YYYY' ) as START_DATE,
+case when COMMISSION_PCT is null then 0 else COMMISSION_PCT end as COMMISSION
+from employees 
+where first_name between 'C' and 'I'
+order by employee_name ASC
+
+
+--3--
+DECLARE
+   v_maxID employees.employee_id%TYPE;
+   v_first_name employees.first_name%TYPE;
+BEGIN 
+FOR i IN 1..2 Loop
+    SELECT MAX (employee_ID) into v_maxID from employees;
+    select first_name into v_first_name from employees;
+    v_maxid := v_maxid+1;
+    insert into employees(employee_id, first_name, last_name, email, phone_number, hire_date, job_id, salary, COMMISSION_PCT, manager_id, department_id)
+    select v_maxid, employees.first_name, employees.last_name, 'new' || v_maxid, employees.phone_number, employees.hire_date, employees.job_id, employees.salary, employees.COMMISSION_PCT, employees.manager_id, employees.department_id from employees 
+    where v_maxid-100;
+    DBMS_output.put_line('Insert a new employee ('  || v_maxID || ') using ' || v_first_name || " 's information");
+end loop;
+end;
+
+
+    FIRST_NAME,
+    LAST_NAME,
+    employee_email,
+    employee_phone_number;
+    
+    
+    INTO r_employees
+    FROM employees
+    where employees_ID = v_maxID+i-100;
+END;
+dbms_output.put_line('Insert a new employee(' || To_Char(v_maxID+i) ||') using ' ||
+r_employees.first_name || q'['s information]' );
+r_employees.employee_id := v_maxID+i;
+r_employees.email := 'new' || r_employees.employee_id || r_employees.email;
+BEGIN
+    insert into employees values r_employees;
+    if sql%found THEN
+    dbms_output.put_Line(SQL%rowcount ||' row inserted.');
+END IF;
+end;
+end loop;
+end;
+
+
+--lab6--
+--1--
+create table SA_EMP (
+    select employee_id, first_name, last_name, email, Phone_number, hire_date, job_id, salary, COMMISSION_PCT, MANAGER_ID, Department_id
+    from employees, departments
+);
+
+
+--2--
+DECLARE
+    v_emprec EMPLPOYEES%ROWTYPE;
+    v_maxsal EMPLOYEES.SALARY%TYPE := 0;
+BEGIN 
+    FOR i in 145..147 LOOP
+    select* 
+    into v_maxsal
+    from 
+    where
+    
+    select* MAX(SALARY)
+    INTO v_maxal
+    from
+    where
+    
+    if v_emprec < v_maxsal
+    DBMS_OUTPUT.PUT_LINE
+    else
+    DBMS_OUTPUT.PUT_LINE
+END LOOP;
+end;
+
+
+--3--
+declare
+    type emp is record (
+        fullname vachar(50),
+        salary employees.salary%TYPE
+    );
+
+    sut_emp EMP;
+BEGIN
+    select first_name || ' ' || last_name, salary
+    into sut_emp
+    from employees
+    where employee.id =200;
+    
+    DBMS_OUTPUT.PUT_Line ('Name''s '|| sut_emp.fullname || 'Salary ' || sut_emp.salary);
+end;
+
+select sysdate, extract(year from sysdate) - 2023, Extract (month from sysdate)
+from dual;
+

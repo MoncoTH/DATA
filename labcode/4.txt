@@ -1,0 +1,53 @@
+--1--
+--NEW_EMPLOYEES--
+CREATE table NEW_EMPLOYEES 
+as (select*from employees)
+
+DELETE FROM NEW_EMPLOYEES
+
+ALTER TABLE NEW_EMPLOYEES 
+ADD CONSTRAINT NEMP_EMP_ID_PK PRIMARY KEY (EMPLOYEE_ID);
+
+ALTER TABLE NEW_EMPLOYEES 
+ADD CONSTRAINT NEMP_DEPT_ID_FK FOREIGN KEY (DEPARTMENT_ID) references departments (department_id)
+
+INSERT INTO NEW_EMPLOYEES select*from Employees
+
+--BACKUP_EMPLOYEES--
+CREATE table BACKUP_EMPLOYEES AS (select*from EMPLOYEES) 
+
+ALTER TABLE BACKUP_EMPLOYEES
+ADD CONSTRAINT BEMP_EMP_ID_PK PRIMARY KEY (EMPLOYEE_ID)
+
+ALTER TABLE BACKUP_EMPLOYEES
+ADD CONSTRAINT BEMP_DEPT_ID_FK FOREIGN KEY (DEPARTMENT_ID) references departments (department_id);
+
+SELECT * FROM NEW_EMPLOYEES
+select*from BACKUP_EMPLOYEES
+    
+--2--
+CREATE VIEW VIEW_EMP_DETAILS AS
+(SELECT employees.employee_id ID, jobs.job_title, employees.manager_id, employees.first_name || ' ' || employees.last_name as mName, departments.department_name, locations.street_address
+FROM employees, locations, jobs, departments )
+
+
+--3--
+CREATE VIEW TOP_MANAGERS as
+select employee_id ID, first_name || ' ' || last_name as Manager 
+select*from departments
+
+
+--4--
+CREATE Sequence HOUR_SEQ 
+  MINVALUE 0
+  MAXVALUE 23
+  START WITH 0
+  INCREMENT BY 1
+  CACHE 20;
+
+SELECT *
+FROM USER_OBJECTS
+WHERE OBJECT_TYPE = 'SEQUENCE'
+ AND OBJECT_NAME = 'HOUR_SEQ';
+
+

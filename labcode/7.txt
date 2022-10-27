@@ -1,0 +1,16 @@
+--7.1
+DECLARE
+ CURSOR crs_emps IS SELECT * FROM EMPLOYEES WHERE First_name BETWEEN 'C' AND 'I' ;
+ emp employees%rowtype;
+BEGIN
+ OPEN crs_emps;
+ LOOP
+ FETCH crs_emps INTO emp;
+ EXIT WHEN crs_emps%NOTFOUND;
+ DBMS_OUTPUT.PUT_LINE(emp.employee_id || ' ' || emp.first_name ||' '|| emp.last_name|| ', since' || To_char (emp.HIRE_DATE ,'DD/MM/YYYY') ||', comm:' || case when emp.COMMISSION_PCT is null then 0 else emp.COMMISSION_PCT end || '%');
+ END LOOP;
+ CLOSE crs_emps;
+END;
+
+--7.2
+

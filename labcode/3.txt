@@ -1,0 +1,32 @@
+--1.1--
+select employee_id as ID, upper(first_name) || '_' || upper(RPAD(last_name, 2)) as NAME, to_char (hire_date, 'Ddspth "of" MONTH YYYY HH:MI:SS AM') as Hiredate
+from employees
+where EXTRACT(YEAR FROM hire_date) > '2002'
+order by hire_date
+
+--1.2--
+SELECT last_name, salary, (
+ CASE TRUNC(salary/2000, 0)
+when 0 then 0.00
+when 1 then 0.09
+when 2 then 0.20
+when 3 then 0.30
+when 4 then 0.40
+when 5 then 0.42
+when 6 then 0.44
+else 0.45 
+end ) as TAX
+FROM employees
+WHERE department_id = 80;
+
+--1.3--
+select employee_id, department_id, count(*) as Change_job
+from job_history
+group by employee_id, department_id
+order by employee_id
+
+--1.4--
+select department_id, employee_id as ID, first_name || ' ' || last_name as Name, salary
+from employees
+where (department_id, salary) in (select department_id, max(salary) from employees group by department_id )
+order by department_id
